@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popover Example</title>
+    <style>
+        /* Стили для поповера */
+        .popover-content {
+            position: absolute;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1;
+            display: none;
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+            /* Начальная непрозрачность */
+            transform: translateY(10px);
+            /* Начальное смещение по вертикали */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            /* Анимация изменения непрозрачности и смещения по вертикали в течение 0.3 секунды */
+        }
+
+        /* Стили для кнопок, которые вызывают поповер */
+        .popover-trigger {
+            margin: 20px;
+            cursor: pointer;
+            /* Указываем, что это интерактивный элемент */
+        }
+    </style>
+</head>
+
+<body>
+    <p class="popover-trigger" data-content="popover-content-1">Наведите мышь для отображения Поповера 1</p>
+    <div id="popover-content-1" class="popover-content">
+        Это содержимое поповера 1
+    </div>
+    <p class="popover-trigger" data-content="popover-content-2">Наведите мышь для отображения Поповера 2</p>
+    <div id="popover-content-2" class="popover-content">
+        Это содержимое поповера 2
+    </div>
+    <script>
+        // Получаем ссылки на все элементы поповера
+        const popoverTriggers = document.querySelectorAll(".popover-trigger");
+        const popoverContents = document.querySelectorAll(".popover-content");
+
+        // Функция для плавного показа поповера
+        function showPopover(event) {
+            const contentId = event.target.getAttribute("data-content");
+            const popoverContent = document.getElementById(contentId);
+            
+            popoverContent.style.display = "block";
+            setTimeout(() => {
+                popoverContent.style.opacity = "1";
+                popoverContent.style.transform = "translateY(0)";
+            }, 0);
+        }
+
+        // Функция для плавного скрытия поповера
+        function hidePopover(event) {
+            const contentId = event.target.getAttribute("data-content");
+            const popoverContent = document.getElementById(contentId);
+
+            popoverContent.style.opacity = "0";
+            popoverContent.style.transform = "translateY(10px)";
+            setTimeout(() => {
+                popoverContent.style.display = "none";
+            }, 300); // Задержка, чтобы поповер исчезал после завершения анимации
+        }
+
+        // Добавляем обработчики событий для всех элементов поповера
+        popoverTriggers.forEach(trigger => {
+            trigger.addEventListener("mouseover", showPopover);
+            trigger.addEventListener("mouseout", hidePopover);
+        });
+    </script>
+</body>
+
+</html>
